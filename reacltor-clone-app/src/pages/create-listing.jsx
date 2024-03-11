@@ -10,12 +10,43 @@ export default function CreateListing() {
     furnished: false,
     address: "",
     description: "",
-    offer: true,
+    offer: false,
     regularPrice: 0,
     discountedPrice: 0,
   });
-  const { type, name, bedroom, bathroom, parking, furnished, address, description, offer, regularPrice,discountedPrice } = formData;
-  function onChange() { }
+  const { type,
+    name,
+    bedroom,
+    bathroom,
+    parking,
+    furnished,
+    address,
+    description,
+    offer,
+    regularPrice,
+    discountedPrice } = formData;
+
+  function onChange(e) {
+    let boolean = null;
+    if (e.target.value === "true") {
+      boolean = true;
+    }
+    if (e.target.value === "false") {
+      boolean = false;
+    }
+    if (e.target.files) {
+      setFormdata((prevState) => ({
+        ...prevState,
+        images: e.target.flies
+      }))
+    }
+    if (!e.target.files) {
+      setFormdata((prevState) => ({
+        ...prevState,
+        [e.target.id]: boolean ?? e.target.value
+      }))
+    }
+  }
   return (
     <main className="max-w-md px-2 mx-auto ">
       <h1 className="text-3xl text-center mt-6 font-bold">Create a Listing</h1>
@@ -26,7 +57,7 @@ export default function CreateListing() {
           <button
             type="button"
             id="type"
-            value="sell"
+            value="rent"
             onClick={onChange}
             className={`mr-2 px-7 py-4 font-medium text-sm uppercase 
           shadow-lg rounded-l hover:shadow-xl focus:shadow-xl
@@ -38,7 +69,7 @@ export default function CreateListing() {
           <button
             type="button"
             id="type"
-            value="rent"
+            value="sell"
             onClick={onChange}
             className={`ml-3 px-7 py-4 font-medium text-sm uppercase 
           shadow-lg rounded-l hover:shadow-xl focus:shadow-xl
@@ -54,8 +85,8 @@ export default function CreateListing() {
           id="name"
           value={name}
           onClick={onChange}
-          placeholder="Property Name"
-          maxLength="52"
+          placeholder="Name"
+          maxLength="32"
           minLength="10"
           required
           className="w-full px-4 py-2 text-lg text-gray-400 
@@ -207,68 +238,68 @@ export default function CreateListing() {
         </div>
         <div className="flex justify-start items-center mb-6">
           <div className="">
-          <p className="text-xl mt-5 font-semibold ">Regular Price</p>
-          <div className="flex w-full justify-center items-center space-x-6 mt-2">
-            <input
-              type="number"
-              id="regularPrice"
-              value={regularPrice}
-              onClick={onChange}
-              min="50"
-              max="50000000"
-              required
-              className="w-full px-4 py-2 text-lg text-gray-400 
+            <p className="text-xl mt-5 font-semibold ">Regular Price</p>
+            <div className="flex w-full justify-center items-center space-x-6 mt-2">
+              <input
+                type="number"
+                id="regularPrice"
+                value={regularPrice}
+                onClick={onChange}
+                min="50"
+                max="50000000"
+                required
+                className="w-full px-4 py-2 text-lg text-gray-400 
         bg-white border border-gray-300 rounded-l
         transition ease-in-out duration-500 focus:text-gray-700 focus:bg-white
         focus:border-slate-600 focus:shadow-xl"
-            />
-            {type === "sell" && (
-              <div className="">
-                <p className="text-md w-full whitespace-nowrap top">$/Month</p>
-              </div>
-            )}
+              />
+              {type === "sell" && (
+                <div className="">
+                  <p className="text-md w-full whitespace-nowrap top">$/Month</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
-        { offer && (
+        {offer && (
           <div className="flex justify-start items-center mb-6">
-          <div className="">
-          <p className="text-xl mt-5 font-semibold ">Discounted Price</p>
-          <div className="flex w-full justify-center items-center space-x-6 mt-2">
-            <input
-              type="number"
-              id="discountedrPrice"
-              value={discountedPrice}
-              onClick={onChange}
-              min="50"
-              max="50000000"
-              required
-              className="w-full px-4 py-2 text-lg text-gray-400 
+            <div className="">
+              <p className="text-xl mt-5 font-semibold ">Discounted Price</p>
+              <div className="flex w-full justify-center items-center space-x-6 mt-2">
+                <input
+                  type="number"
+                  id="discountedrPrice"
+                  value={discountedPrice}
+                  onClick={onChange}
+                  min="50"
+                  max="50000000"
+                  required
+                  className="w-full px-4 py-2 text-lg text-gray-400 
         bg-white border border-gray-300 rounded-l
         transition ease-in-out duration-500 focus:text-gray-700 focus:bg-white
         focus:border-slate-600 focus:shadow-xl"
-            />
-            {type === "sell" && (
-              <div className="">
-                <p className="text-md w-full whitespace-nowrap top">$/Month</p>
+                />
+                {type === "sell" && (
+                  <div className="">
+                    <p className="text-md w-full whitespace-nowrap top">$/Month</p>
+                  </div>
+                )}
               </div>
-            )}
             </div>
           </div>
-        </div>
         )}
         <div className="mb-6 ">
           <p className="text-xl font-semibold">Images</p>
-          <p className="text-gray-600">The first Images will be the cover (max 6)</p>   
+          <p className="text-gray-600">The first Images will be the cover (max 6)</p>
           <input type="file" name="" id="images" onChange={onChange}
-          accept=".jpg,.png,.jpeg"
-          multiple
-          required
-          className="w-full px-3 py-1.5 text-gray-700 bg-white 
+            accept=".jpg,.png,.jpeg"
+            multiple
+            required
+            className="w-full px-3 py-1.5 text-gray-700 bg-white 
           border border-black-300 rounded cursor-pointer shadow
           transtion duration-200 ease-in-out focus:bg-white focus:bg-blue
           "
-          /> 
+          />
         </div>
         <button type="submit" className="w-full bg-blue-500 text-white 
               uppercase px-7 py-2 text-m font-medium 
